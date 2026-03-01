@@ -1,26 +1,22 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface SearchBarProps {
   search?: string;
 }
 
 export default function SearchBar({ search }: SearchBarProps) {
-  const [text, setText] = useState(search || '');
+  const [text, setText] = useState(search || "");
   const router = useRouter();
 
   useEffect(() => {
-    if (!search) {
-      router.push(`/`);
-    } else {
-      router.push(`/?search=${search}`);
-    }
-  }, [search, router]);
+    setText(search || "");
+  }, [search]);
 
   const handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       performSearch();
     }
   };
@@ -34,20 +30,20 @@ export default function SearchBar({ search }: SearchBarProps) {
   };
 
   const handleBackClick = () => {
-    if (text) {
-      setText('');
-    }
-    router.push(`/`);
+    setText("");
+    router.push("/");
   };
 
   const performSearch = () => {
-    if (text) {
-      router.push(`/?search=${text}`);
-      setText('');
+    const normalized = text.trim().toLowerCase();
+
+    if (normalized) {
+      router.push(`/?search=${encodeURIComponent(normalized)}`);
     } else {
-      router.push(`/`);
+      router.push("/");
     }
   };
+
   return (
     <div className="flex flex-col items-center space-x-2 max-w-max">
       <div className="flex items-center space-x-2 max-w-max">
@@ -63,6 +59,7 @@ export default function SearchBar({ search }: SearchBarProps) {
         />
         <button
           type="button"
+          aria-label="Search Pokemon"
           className="p-2 m-2 bg-opacity-30 bg-gray-500 border border-gray-300 rounded-full transition duration-300 hover:bg-opacity-60"
           onClick={handleButtonClick}
         >
@@ -70,12 +67,13 @@ export default function SearchBar({ search }: SearchBarProps) {
         </button>
       </div>
       {search && (
-        <div
+        <button
+          type="button"
           className="justify-center text-white flex items-center w-28 h-12 bg-blue-500 rounded-full"
           onClick={handleBackClick}
         >
           Go back
-        </div>
+        </button>
       )}
     </div>
   );
