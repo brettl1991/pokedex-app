@@ -7,36 +7,33 @@ import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 
 interface PokemonDetailPageProps {
-  params: {
-    id: string;
-  };
+  params:
+    | {
+        id: string;
+      }
+    | Promise<{
+        id: string;
+      }>;
 }
 export default async function PokemonDetailPage({
   params,
 }: PokemonDetailPageProps) {
-  const { id } = params;
+  const { id } = await Promise.resolve(params);
   const pokemon = await fetchPokemonByNameOrId(id);
 
   if (!pokemon) {
     return notFound();
   }
 
-  let background;
-
-  if (pokemon) {
-    background = getColorsByPokemonType(pokemon.types[0].type.name).background;
-    if (pokemon.types.length >= 2) {
-      background = `linear-gradient(
-          to right,
-          ${
-            getColorsByPokemonType(pokemon.types[0].type.name).backgroundColor
-          } 50%,
-          ${
-            getColorsByPokemonType(pokemon.types[1].type.name).backgroundColor
-          } 50%
-      )`;
-    }
-  }
+  const primaryType = pokemon.types[0].type.name;
+  const secondaryType = pokemon.types[1]?.type.name;
+  const background = secondaryType
+    ? `linear-gradient(
+        to right,
+        ${getColorsByPokemonType(primaryType).backgroundColor} 50%,
+        ${getColorsByPokemonType(secondaryType).backgroundColor} 50%
+      )`
+    : getColorsByPokemonType(primaryType).background;
 
   return (
     <div

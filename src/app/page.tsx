@@ -10,12 +10,17 @@ const pokemonFont = localFont({
 });
 
 interface HomeProps {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams:
+    | { [key: string]: string | string[] | undefined }
+    | Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 export default async function Home({ searchParams }: HomeProps) {
+  const resolvedSearchParams = await Promise.resolve(searchParams);
   const search =
-    typeof searchParams.search === "string" ? searchParams.search : undefined;
+    typeof resolvedSearchParams.search === "string"
+      ? resolvedSearchParams.search
+      : undefined;
 
   return (
     <div>
@@ -23,7 +28,7 @@ export default async function Home({ searchParams }: HomeProps) {
         <h1
           className={`text-center text-5xl font-bold text-[#fbc418] ${pokemonFont.className} title`}
         >
-          Choose your Pokémon
+          Choose your Pokemon
         </h1>
       </div>
       <div className="p-6 md:px-10 lg:px-40">

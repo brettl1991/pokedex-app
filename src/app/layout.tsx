@@ -6,9 +6,9 @@ import Navbar from "@/components/Navbar/Navbar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Pokédex",
+  title: "Pokedex",
   description:
-    "A project dedicated to creating a Pokédex that utilizes PokéAPI to showcase data on every known Pokémon.",
+    "A project dedicated to creating a Pokedex that uses PokeAPI to showcase data on every known Pokemon.",
 };
 
 export default function RootLayout({
@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en-GB" suppressHydrationWarning>
       <body className={inter.className}>
         <Navbar />
         {children}
