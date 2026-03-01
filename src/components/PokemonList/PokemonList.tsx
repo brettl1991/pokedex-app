@@ -12,9 +12,9 @@ export default async function PokemonList({ query }: PokemonListProps) {
   if (!pokemons.length) {
     return (
       <div className="flex flex-col items-center text-center leading-relaxed m-auto p-4 min-h-screen">
-        <h1 className="text-4xl mb-1">Pokémon not found!</h1>
+        <h1 className="text-4xl mb-1">Pokemon not found!</h1>
         <h2 className="text-xl font-normal mb-4">
-          Unfortunately the Pokémon you are looking for is not here.
+          Unfortunately the Pokemon you are looking for is not here.
         </h2>
 
         <Image

@@ -2,30 +2,38 @@
 import { fetchPokemons } from '@/actions';
 import { Pokemon } from '@/types';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import PokemonItem from '../PokemonItem/PokemonItem';
 
 export default function LoadMore() {
   const { ref, inView } = useInView();
   const [morePokemon, setMorePokemon] = useState<Pokemon[]>([]);
+  const isLoadingRef = useRef(false);
   const [nextUrl, setNextUrl] = useState<string | null>(
     'https://pokeapi.co/api/v2/pokemon?offset=24&limit=24'
   );
 
   useEffect(() => {
     const loadMorePokemons = async () => {
-      if (inView && nextUrl) {
+      if (!inView || !nextUrl || isLoadingRef.current) {
+        return;
+      }
+
+      isLoadingRef.current = true;
+      try {
         const res = await fetchPokemons({ url: nextUrl });
         const newPokemons = res.pokemons.filter(
-          (pokemon) => pokemon !== null
-        ) as Pokemon[];
+          (pokemon): pokemon is Pokemon => pokemon !== null
+        );
         setMorePokemon((prev) => [...prev, ...newPokemons]);
         setNextUrl(res.nextUrl);
+      } finally {
+        isLoadingRef.current = false;
       }
     };
     loadMorePokemons();
-  }, [inView, nextUrl, morePokemon]);
+  }, [inView, nextUrl]);
 
   return (
     <>

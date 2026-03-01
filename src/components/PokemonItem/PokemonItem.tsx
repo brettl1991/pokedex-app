@@ -16,8 +16,9 @@ export default function PokemonItem({ pokemon }: PokemonItemProps) {
 
   const type = pokemon.types[0].type.name;
   const bgColor = getColorsByPokemonType(type).backgroundColor;
+
   return (
-    <Link href={`/pokemon/${pokemon.id}`} passHref>
+    <Link href={`/pokemon/${pokemon.id}`}>
       <div
         style={{ backgroundColor: bgColor }}
         className="flex flex-col items-center justify-center p-4 bg-white border border-gray-300 rounded-2xl shadow-md cursor-pointer transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-lg"
@@ -36,7 +37,7 @@ export default function PokemonItem({ pokemon }: PokemonItemProps) {
               width={156}
               height={156}
               className="object-cover"
-              layout="responsive"
+              sizes="156px"
               unoptimized
             />
           </div>

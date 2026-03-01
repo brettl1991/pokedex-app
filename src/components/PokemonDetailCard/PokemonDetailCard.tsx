@@ -16,19 +16,18 @@ export default async function PokemonDetailCard({
   pokemon,
 }: PokemonDetailCardProps) {
   const imageUrl =
-    pokemon?.sprites.other['official-artwork'].front_default ||
-    pokemon?.sprites.front_default ||
+    pokemon.sprites.other['official-artwork'].front_default ||
+    pokemon.sprites.front_default ||
     '/images/placeholder.png';
 
-  const pokemonTypeColor = pokemon
-    ? getColorsByPokemonType(pokemon.types[0].type.name).background
-    : 'linear-gradient(180deg, #fff 50%, #fff 50%)';
+  const pokemonTypeColor = getColorsByPokemonType(
+    pokemon.types[0].type.name
+  ).background;
 
-  const formattedMoves =
-    pokemon?.moves?.map((moveItem) => ({
-      name: moveItem.move.name,
-      url: moveItem.move.url,
-    })) || [];
+  const formattedMoves = pokemon.moves.map((moveItem) => ({
+    name: moveItem.move.name,
+    url: moveItem.move.url,
+  }));
 
   const pokemonMoves = await fetchMoveDetails(formattedMoves);
   const pokemonSpecies = await fetchPokemonSpeciesByNameOrId(pokemon.id);
@@ -59,11 +58,11 @@ export default async function PokemonDetailCard({
         <div className="flex justify-between">
           <div className="flex flex-col  justify-center  gap-1">
             <h1 className="text-lg sm:text-md font-semibold capitalize">
-              {pokemon?.name}
+              {pokemon.name}
             </h1>
             <div className="flex gap-3">
-              {pokemon?.types.map((type, index) => (
-                <BadgeType type={type.type.name} key={index} />
+              {pokemon.types.map((type) => (
+                <BadgeType type={type.type.name} key={type.type.name} />
               ))}
             </div>
           </div>
@@ -72,7 +71,7 @@ export default async function PokemonDetailCard({
         <div className="flex flex-col items-center space-y-4">
           <Image
             src={imageUrl}
-            alt={pokemon?.name}
+            alt={pokemon.name}
             width={200}
             height={200}
             unoptimized

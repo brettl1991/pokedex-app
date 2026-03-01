@@ -11,10 +11,10 @@ export default function PokemonDetailsTabContentMoves({
 }: PokemonDetailsTabContentMovesProps) {
   return (
     <div className="flex flex-wrap gap-2">
-      {pokemonMoves?.map((move, index) => (
+      {pokemonMoves?.map((move) => (
         <div
           className="flex items-center justify-center gap-1 rounded-lg px-2"
-          key={index}
+          key={`${move.name}-${move.type}`}
           style={getColorsByPokemonType(move.type)}
         >
           <Image

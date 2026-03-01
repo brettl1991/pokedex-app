@@ -10,8 +10,12 @@ export default function PokemonDetailsTabContentStats({
 }: PokemonDetailsTabContentStatsProps) {
   return (
     <div>
-      {pokemon?.stats.map((item, index) => (
-        <StatItem key={index} item={item} type={pokemon.types[0].type.name} />
+      {pokemon?.stats.map((item) => (
+        <StatItem
+          key={item.stat.name}
+          item={item}
+          type={pokemon.types[0].type.name}
+        />
       ))}
     </div>
   );

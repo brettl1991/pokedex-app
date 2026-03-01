@@ -9,11 +9,11 @@ interface StatBarProps {
   baseStat: number;
 }
 
-type baseStats = {
+type BaseStats = {
   [key: string]: number;
 };
 
-const MAX_BASE_STAT: baseStats = {
+const MAX_BASE_STAT: BaseStats = {
   hp: 255,
   attack: 190,
   defense: 250,
@@ -26,7 +26,8 @@ export default function StatBar({ type, stat, baseStat }: StatBarProps) {
   const [completed, setCompleted] = useState(0);
 
   useEffect(() => {
-    setCompleted((baseStat * 100) / MAX_BASE_STAT[stat]);
+    const statCap = MAX_BASE_STAT[stat] || 255;
+    setCompleted((baseStat * 100) / statCap);
   }, [baseStat, stat]);
 
   const bgColor = getColorsByPokemonType(type).backgroundColor;

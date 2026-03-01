@@ -1,10 +1,10 @@
 'use client';
-import { useState, Fragment } from 'react';
+import { useState, Fragment, type ReactNode } from 'react';
 
 interface PokemonDetailTabsProps {
   tabs: {
     label: string;
-    content: JSX.Element;
+    content: ReactNode;
   }[];
 }
 
